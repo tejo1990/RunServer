@@ -1,0 +1,35 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider files
+.idea/
+*.sln.iml
+
+# Backup & report files
+*.bak
+*.log
+*.tlog
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# Environment variables
+.env
+
+# Visual Studio Code files
+.vscode/
+
+# Other
+*.DS_Store 
