@@ -195,16 +195,27 @@ public class ClientHandler : IDisposable
     {
         try
         {
-            // 현재 로그인된 클라이언트를 Dictionary<string, object> 형식으로 변환
-            var loggedInClientsData = LoggedInClients.ToDictionary(
-                entry => entry.Key,
-                entry => (object)entry.Value
-            );
+            var loggedInClientsData = new Dictionary<string, object>();
+
+            foreach (var entry in LoggedInClients)
+            {
+                var id = entry.Key;
+                var contentId = await _mySqlService.GetcontentIdByIdAsync(id, GlobalSettings.Table);
+
+                if (contentId != null)
+                {
+                    loggedInClientsData[id] = contentId;
+                }
+                else
+                {
+                    _logger.LogWarning($"ID {id}에 대한 contentId 찾을 수 없습니다.");
+                }
+            }
 
             return new ResponseModel
             {
                 Success = true,
-                Data = loggedInClientsData // 변환된 데이터를 Data에 할당
+                Data = loggedInClientsData
             };
         }
         catch (Exception ex)

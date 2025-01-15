@@ -197,5 +197,39 @@ namespace RunServer.Services.Database
                 return null;
             }
         }
+
+        public async Task<string?> GetcontentIdByIdAsync(string id, string table)
+        {
+            try
+            {
+                if (_connection.State != ConnectionState.Open)
+                {
+                    await _connection.OpenAsync();
+                }
+
+                using var cmd = new MySqlCommand($"SELECT contentID FROM {table} WHERE ID = @id", _connection);
+                cmd.Parameters.AddWithValue("@id", id);
+
+                _logger.LogInformation(cmd.CommandText);
+
+                using var reader = await cmd.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    var contentID = reader["contentID"]?.ToString();
+                    _logger.LogInformation($"ID {id}에 대한 contentID: {contentID}");
+                    return contentID;
+                }
+                else
+                {
+                    _logger.LogInformation($"테이블 {table}에서 ID {id}에 대한 contentID 찾을 수 없습니다.");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ID로 contentID 가져오는 중 오류 발생");
+                return null;
+            }
+        }
     }
 }

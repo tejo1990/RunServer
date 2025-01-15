@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "RunServer",
+			"path": "."
+		},
+		{
+			"name": "docs",
+			"path": "../RunServer_DB_socketAPI/docs"
+		}
+	],
+	"settings": {}
+}
